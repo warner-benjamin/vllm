@@ -205,7 +205,7 @@ def hf_model_weights_iterator(
             if not os.path.exists(weight_names_file):
                 weight_names = []
                 for bin_file in hf_weights_files:
-                    state = torch.load(bin_file, map_location="cpu")
+                    state = torch.load(bin_file, map_location="cpu", mmap=True)
                     for name, param in state.items():
                         param_path = os.path.join(np_folder, name)
                         with open(param_path, "wb") as f:
@@ -230,7 +230,7 @@ def hf_model_weights_iterator(
                     yield name, param
     else:
         for bin_file in hf_weights_files:
-            state = torch.load(bin_file, map_location="cpu")
+            state = torch.load(bin_file, map_location="cpu", mmap=True)
             for name, param in state.items():
                 yield name, param
             del state
